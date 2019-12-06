@@ -1,8 +1,11 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EvaluationService {
 
@@ -13,7 +16,7 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String reverse(String string) {
+	public static String reverse(String string) {
 		char[] reversed = new char[string.length()];
 		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) {
 			reversed[j] = string.charAt(i);
@@ -29,9 +32,16 @@ public class EvaluationService {
 	 * @param phrase
 	 * @return
 	 */
-	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static String acronym(String phrase) {
+		
+		String[] words = phrase.split(" |\\-");
+		char[] acronym = new char[words.length];
+		for (int i = 0; i < words.length; i++) {
+			String s = words[i];
+			acronym[i] = Character.toUpperCase(s.charAt(0));
+			
+		}
+		return new String(acronym);
 	}
 
 	/**
@@ -84,21 +94,39 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (this.getSideOne() == this.getSideTwo() && this.getSideTwo() == this.getSideThree()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (this.getSideOne() == this.getSideTwo() || this.getSideTwo() == this.getSideThree() || this.getSideOne() == this.getSideThree()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (this.getSideOne() != this.getSideTwo() && this.getSideTwo() != this.getSideThree() && this.getSideOne() != this.getSideThree()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 	}
+	
+//	public static String triangleTypeCalc(Triangle test) {
+//		if (test.getSideOne() == test.getSideTwo() && test.getSideTwo() == test.getSideThree()) {
+//			return "This is an equilateral triangle";
+//		} else {
+//			return "This is a triangle";
+//		}
+//		
+//	}
 
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
@@ -115,9 +143,35 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public static int getScrabbleScore(String string) {
+		int score = 0;
+		char[] letterlist = new char[string.length()];
+		for (int i = 0; i < letterlist.length; i++) {
+			letterlist[i] = string.charAt(i);
+			if((""+letterlist[i]).equalsIgnoreCase(""+'a') || (""+letterlist[i]).equalsIgnoreCase(""+'e') || (""+letterlist[i]).equalsIgnoreCase(""+'i') || (""+letterlist[i]).equalsIgnoreCase(""+'o') || (""+letterlist[i]).equalsIgnoreCase(""+'u') || (""+letterlist[i]).equalsIgnoreCase(""+'l') || (""+letterlist[i]).equalsIgnoreCase(""+'n') || (""+letterlist[i]).equalsIgnoreCase(""+'s') || (""+letterlist[i]).equalsIgnoreCase(""+'t') || (""+letterlist[i]).equalsIgnoreCase(""+'r')) {
+				score +=1;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'d') || (""+letterlist[i]).equalsIgnoreCase(""+'g')) {
+				score += 2;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'b') || (""+letterlist[i]).equalsIgnoreCase(""+'c') || (""+letterlist[i]).equalsIgnoreCase(""+'m') || (""+letterlist[i]).equalsIgnoreCase(""+'p')) {
+				score += 3;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'f') || (""+letterlist[i]).equalsIgnoreCase(""+'h') || (""+letterlist[i]).equalsIgnoreCase(""+'v') || (""+letterlist[i]).equalsIgnoreCase(""+'w') || (""+letterlist[i]).equalsIgnoreCase(""+'y')) {
+				score += 4;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'k')) {
+				score += 5;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'j') || (""+letterlist[i]).equalsIgnoreCase(""+'x')) {
+				score += 8;
+			}
+			if((""+letterlist[i]).equalsIgnoreCase(""+'q') || (""+letterlist[i]).equalsIgnoreCase(""+'z')) {
+				score += 10;
+			}
+		}
+
+		return score;
 	}
 
 	/**
@@ -151,9 +205,83 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static String cleanPhoneNumber(String string) throws IllegalArgumentException {
+		char[] numlist = new char[10];
+		int currentindex = 0;
+		
+		for (int i = 0; i < string.length(); i++) {
+				int valuetest = Character.getNumericValue(string.charAt(i));
+				if((10 <= valuetest && valuetest <= 36)) {
+					//System.out.println("WARNING LETTER INCLUDED");
+					throw new IllegalArgumentException();
+				}
+				//System.out.println(valuetest);
+				if(valuetest <= 10 && valuetest >= 0) {
+					char c = Character.MIN_VALUE;
+					switch(valuetest) {
+						case 0:
+							c = '0';
+//							System.out.println(c);
+						break;
+						case 1:
+							c = '1';
+//							System.out.println(c);
+						break;
+						case 2:
+							c = '2';
+//							System.out.println(c);
+						break;
+						case 3:
+							c = '3';
+//							System.out.println(c);
+						break;
+						case 4:
+							c = '4';
+//							System.out.println(c);
+						break;
+						case 5:
+							c = '5';
+//							System.out.println(c);
+						break;
+						case 6:
+							c = '6';
+//							System.out.println(c);
+						break;
+						case 7:
+							c = '7';
+//							System.out.println(c);
+						break;
+						case 8:
+							c = '8';
+//							System.out.println(c);
+						break;
+						case 9:
+							c = '9';
+//							System.out.println(c);
+						break;
+					
+					}
+
+					if(currentindex == 0 && c == '1') {
+
+					} else {
+						try {
+							numlist[currentindex] = c;
+						} catch (IndexOutOfBoundsException e) {
+							throw new IllegalArgumentException();
+						}
+						currentindex++;
+					}
+				}
+				
+				
+		}
+//		for (int i = 0; i < numlist.length; i++) {
+//		System.out.print(numlist[i]);
+//		System.out.println();
+//		}
+		String finalnumber = new String(numlist);
+		return finalnumber;
 	}
 
 	/**
@@ -165,9 +293,14 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static Map<String, Integer> wordCount(String string) {
+		String[] words = string.split("[,\\n ]+");
+		Map<String, Integer> wl = new HashMap<String, Integer>();
+		for(int i = 0; i < words.length; i++) {
+			int count = wl.containsKey(words[i]) ? wl.get(words[i]) : 0;
+				wl.put(words[i], count + 1);
+		}
+		return wl;
 	}
 
 	/**
@@ -245,9 +378,33 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static String toPigLatin(String string) {
+		String[] phrase = string.split("[ ]+");
+		String resulting = new String();
+		for(int i = 0; i < phrase.length; i++) {
+			//System.out.println(piglatinwordbyword(phrase[i]));
+			resulting = resulting + " " + piglatinwordbyword(phrase[i]);
+		}
+		return resulting.substring(1, resulting.length());
+		
+	}
+	public static String piglatinwordbyword(String word) {
+		if(("" + word.charAt(0)).equals("" + 'a') || ("" + word.charAt(0)).equals("" + 'e') || ("" + word.charAt(0)).equals("" + 'i') || ("" + word.charAt(0)).equals("" + 'o') || ("" + word.charAt(0)).equals("" + 'u')) {
+			return word + "ay";
+		} else if (("" + word.charAt(0)).equals("" + 't') && ("" + word.charAt(1)).equals("" + 'h')) {
+			String result = word.substring(2, word.length());
+			return result + "thay";
+		} else if (("" + word.charAt(0)).equals("" + 's') && ("" + word.charAt(1)).equals("" + 'c') && ("" + word.charAt(2)).equals("" + 'h')) {
+			String result = word.substring(3, word.length());
+			return result + "schay";
+		} else if (("" + word.charAt(0)).equals("" + 'q') && ("" + word.charAt(1)).equals("" + 'u')) {
+			String result = word.substring(2, word.length());
+			return result + "quay";
+		} else {
+			char firstletter = word.charAt(0);
+			String result = word.substring(1, word.length());
+			return result + firstletter + "ay";
+		}
 	}
 
 	/**
@@ -265,9 +422,18 @@ public class EvaluationService {
 	 * @param input
 	 * @return
 	 */
-	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+	public static boolean isArmstrongNumber(int input) {
+		String numstring = "" + input;
+		int power = numstring.length();
+		int count = 0;
+		for (int i = 0; i < numstring.length(); i++) {
+			count += Math.pow(Character.getNumericValue(numstring.charAt(i)), power);
+		}
+		if (count == input) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -280,9 +446,106 @@ public class EvaluationService {
 	 * @param l
 	 * @return
 	 */
-	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static List<Long> calculatePrimeFactorsOf(long l) {
+		List<Long> resultlist = new ArrayList<>();
+		List<Long> templist = getFactors(l);
+		boolean done = false;
+		int currentindex = 0;
+		System.out.println("Our temporary list is first: " + templist.get(0) + " and second: " + templist.get(1));
+		while(!done) {
+			if(checkisprime(templist.get(0)) && checkisprime(templist.get(1))) {
+				System.out.println("Both of the items are prime so we're going to put these items into our result list and be done.");
+				resultlist.add(currentindex, templist.get(0));
+				currentindex++;
+				resultlist.add(currentindex, templist.get(1));
+				currentindex++;
+				done = true;
+				return resultlist;
+			} else if (!checkisprime(templist.get(1))) {
+				System.out.println("Our second number isn't prime so we're going to add " + templist.get(0) + " to our result list and get the factors of our second number.");
+				resultlist.add(currentindex, templist.get(0));
+				currentindex++;
+				templist = getFactors(templist.get(1));
+			}
+		}
+		return resultlist;
+
+		
+//		for(long i = 1; i <= l; i ++) {
+//			long otherfactor = 0;
+//			if(l%i == 0) {
+//				otherfactor = l / i;
+//			}
+//			if(otherfactor != 0) {
+//				System.out.println(l + " is divisible by " + i + " and " + otherfactor);
+//				if(checkisprime(i) && !checkisprime(otherfactor)) {
+//					
+//				}
+//			}
+			
+		//}
+
+//		for(long i = 1; i <= l; i ++) {
+//			System.out.println("i is " + i);
+//			System.out.println("l is " + l);
+//			int power = 2;
+//			if(l%i == 0 && checkisprime(i) == true) {
+//				System.out.println(i + " goes evenly into " + l + "and " + i + " is a prime number so it's being added to the list.");
+//				resultlist.add(currentindex, i);
+//				System.out.println(" Current index is " + currentindex);
+//				currentindex++;
+//				if(i != 1) {
+//					
+//					while (Math.pow(i, power) <= l) {
+//						System.out.println("current i squared: " + Math.pow(i, power) + ". Current thingy: " + l);
+//						resultlist.add(currentindex, i);
+//						currentindex++;
+//						power++;
+//					}
+//					}
+//			}
+//
+//		}
+		//System.out.println(resultlist);
+		//return resultlist;
+	}
+	public static List<Long> getFactors(long sub) {
+		List<Long> resultlist = new ArrayList<>();
+		//int currentindex = 0;
+		for(long i = 1; i <= sub; i ++) {
+			long otherfactor = 0;
+			if(sub%i == 0) {
+				otherfactor = sub / i;
+			}
+			if(otherfactor != 0) {
+				System.out.println(sub + " is divisible by " + i + " and " + otherfactor);
+				if(sub != 1 && sub != otherfactor) {
+					resultlist.add(0, i);
+					resultlist.add(1, otherfactor);
+					return resultlist;
+				}
+			}
+			
+		}
+		return resultlist;
+	}
+	public static boolean checkisprime(long number) {
+		boolean isprime = true;
+		if(number == 1) {
+			isprime = false;
+		} else {
+			
+		
+			for(int i = 2; i < number; i++) {
+				if(number%i == 0 && i != 1 && i != number) {
+					//System.out.println(i + " is a factor of " + number);
+					isprime = false;
+				} else {
+					//System.out.println(i + " is not a factor of " + number);
+				}
+			}
+		}		
+		return isprime;
 	}
 
 	/**
@@ -500,7 +763,7 @@ public class EvaluationService {
 	 * 
 	 * 7+2+5+3+2+2+6+2+5+3+1+2+0+5+3+9 = 57 57 is not evenly divisible by 10, so
 	 * this number is not valid.
-	 * 
+	 * f
 	 * @param string
 	 * @return
 	 */

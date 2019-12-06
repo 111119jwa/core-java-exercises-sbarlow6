@@ -241,9 +241,9 @@ public class EvaluationServiceTest {
 	@Test
 	public void handlesExpandedLists() {
 		Map<String, Integer> expectedWordCount = new HashMap<>();
-		expectedWordCount.put("one", 1);
-		expectedWordCount.put("two", 1);
 		expectedWordCount.put("three", 1);
+		expectedWordCount.put("two", 1);
+		expectedWordCount.put("one", 1);
 
 		Map<String, Integer> actualWordCount = evaluationService.wordCount("one,\ntwo,\nthree");
 		assertEquals(expectedWordCount, actualWordCount);
