@@ -13,7 +13,8 @@ public class Main {
 		System.out.println(EvaluationService.toPigLatin("quick fast run"));
 		System.out.println(EvaluationService.isArmstrongNumber(153));
 		System.out.println(EvaluationService.checkisprime(13));
-		System.out.println("is 1 prime?: " + EvaluationService.checkisprime(1));
-		System.out.println(EvaluationService.calculatePrimeFactorsOf(875));
+		//System.out.println("is 1 prime?: " + EvaluationService.checkisprime(1));
+		//System.out.println(EvaluationService.calculatePrimeFactorsOf(875));
+		System.out.println(EvaluationService.calculateNthPrime(104743));
 	}
 }

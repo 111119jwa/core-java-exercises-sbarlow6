@@ -601,9 +601,22 @@ public class EvaluationService {
 	 * @param i
 	 * @return
 	 */
-	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public static int calculateNthPrime(int i) throws IllegalArgumentException {
+		int count = 0;
+		int current = 0;
+		if(i != 0) {
+
+			while(count < i) {
+				current++;
+				if(checkisprime(current)) {
+					count++;
+				}
+			}
+		} else {
+			throw new IllegalArgumentException();
+		}
+
+		return current;
 	}
 
 	/**
