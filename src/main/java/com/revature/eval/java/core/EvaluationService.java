@@ -448,6 +448,10 @@ public class EvaluationService {
 	 */
 	public static List<Long> calculatePrimeFactorsOf(long l) {
 		List<Long> resultlist = new ArrayList<>();
+		if (checkisprime(l)) {
+			resultlist.add(0, l);
+			return resultlist;
+		}
 		List<Long> templist = getFactors(l);
 		boolean done = false;
 		int currentindex = 0;
@@ -576,17 +580,33 @@ public class EvaluationService {
 	 */
 	static class RotationalCipher {
 		private int key;
-
 		public RotationalCipher(int key) {
 			super();
 			this.key = key;
 		}
-
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String postring = "";
+			for(int i = 0; i < string.length(); i++) {
+				char curchar = string.charAt(i);
+				if((curchar >= 'a' && curchar <= 'z')) {
+					if((curchar+key) > 'z') {
+						postring += (char) (curchar+key-26);
+					}else {
+						postring += (char) (curchar+key);
+					}
+				}else if((curchar >= 'A' && curchar <= 'Z')) {
+					if((curchar+key) > 'Z') {
+						postring += (char) (curchar+key-26);
+					}else {
+						postring += (char) (curchar+key);
+					}
+				}
+				else {
+					postring += (char) (curchar);
+				}
+			}
+			return postring;
 		}
-
 	}
 
 	/**
@@ -601,7 +621,7 @@ public class EvaluationService {
 	 * @param i
 	 * @return
 	 */
-	public static int calculateNthPrime(int i) throws IllegalArgumentException {
+	public int calculateNthPrime(int i) throws IllegalArgumentException {
 		int count = 0;
 		int current = 0;
 		if(i != 0) {
@@ -691,8 +711,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
+		int totalholder = 0;
+		int multiplier = 10;
+		for(int i = 0; i < string.length(); i++) {
+			if(i != 1 && i != 5 && i != 11 && string.charAt(i) != 'A') {
+				System.out.println("the current char is " + string.charAt(i) + ". Numeric value: " + Character.getNumericValue(string.charAt(i)));
+				System.out.println("Number being added to the total: " + Character.getNumericValue(string.charAt(i)) * multiplier);
+				if(Character.getNumericValue(string.charAt(i)) == 33) {
+					totalholder += (10 * multiplier);
+					multiplier--;
+				} else {
+				totalholder += (Character.getNumericValue(string.charAt(i)) * multiplier);
+				System.out.println("the current multiplier is " + multiplier);
+				multiplier--;
+				}
+			}
+		}
+		System.out.println("Total number is " + totalholder);
+		if(totalholder%11 == 0) {
+				return true;
+		} else {
 		return false;
+		}
 	}
 
 	/**
@@ -709,8 +749,23 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		string.toLowerCase();
+		boolean[] tests = new boolean[26];
+		for(int i = 0; i < string.length(); i++) {
+			System.out.println(string.charAt(i));
+			System.out.println(Character.getNumericValue(string.charAt(i)));
+			if(Character.getNumericValue(string.charAt(i)) != -1) {
+			tests[(Character.getNumericValue(string.charAt(i)) - 10)] = true;
+			}
+		}
+			
+		boolean nullcheck = true;
+		for(int i = 0; i < tests.length; i++) {
+			if(!tests[i]) {
+				nullcheck = false;
+			}
+		}
+		return nullcheck;
 	}
 
 	/**
@@ -740,8 +795,23 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		List<Integer> multilist = new ArrayList();
+		int resultholder = 0;
+		for(int j = 0; j < i; j++) {
+			for(int n = 0; n < set.length; n++) {
+				System.out.println("Testing " + j + " to see if it is a multiple of " + set[n]);
+				if(j%set[n] == 0) {
+					System.out.println("it is adding to list");
+					multilist.add(j);
+					break;
+				}
+			}
+
+		}
+		for(int d : multilist)
+			resultholder += d;
+		System.out.println(resultholder);
+		return resultholder;
 	}
 
 	/**
@@ -813,8 +883,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] wordArray = string.trim().split("\\s+");
+		int Num1 = Integer.parseInt(wordArray[2]);
+		String second = wordArray[wordArray.length-1];
+		second = second.replaceAll("[^-\\d]", "");
+		int Num2 = Integer.parseInt(second);
+		String operation = wordArray[3];
+		switch (operation) {
+		case "multiplied":
+			return Num1 * Num2;
+		case "plus":
+			return Num1 + Num2;
+		case "minus":
+			return Num1 - Num2;
+		default:
+			return Num1/Num2;
+		}
 	}
 
 }
